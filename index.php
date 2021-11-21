@@ -4,7 +4,7 @@
  * Plugin Name: Youtube Link Modal Window
  */
  
-if (!class_exists(youtubelink)) {
+if (!class_exists('youtubelink')) {
 	class youtubelink {
 		public function modal(){
 				
