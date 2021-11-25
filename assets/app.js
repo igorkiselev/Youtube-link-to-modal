@@ -77,7 +77,32 @@
 					$.getJSON("https://www.youtube.com/oembed?url=" + $link + "&format=json", function(data) {
 						$modal.removeClass('loading');
 						content = data.html;
-						$modal.find('.content').html(content).append("<a href=\"#close\" class=\"close\"></a>");
+						$modal.find('.content').css({"aspect-ratio" : data.width+" / "+data.height}).html(content).append("<a href=\"#close\" class=\"close\"></a>");
+						$modal.find('.close').on("click", function(e) {
+							$modal.click();
+							e.preventDefault();
+						});
+					});
+				},
+				onClose: function() {
+					$modal.find('.content').html('');
+				},
+				showClass: 'visible',
+				overflowClass: 'modal_preview_video',
+			});
+			e.preventDefault();
+		});
+		$('a[href*="vimeo"][target="_blank"]').click(function(e) {
+			$modal = $('#preview_video'), $this = $(this);
+			$modal.preview_video({
+				onOpen: function() {
+					var $link = $this.attr('href');
+					$modal.addClass('loading');
+					$.getJSON("https://vimeo.com/api/oembed.json?url=" + $link, function(data) {
+						$modal.removeClass('loading');
+						content = data.html;
+						
+						$modal.find('.content').css({"aspect-ratio" : data.width+" / "+data.height}).html(content).append("<a href=\"#close\" class=\"close\"></a>");
 						$modal.find('.close').on("click", function(e) {
 							$modal.click();
 							e.preventDefault();
@@ -93,4 +118,5 @@
 			e.preventDefault();
 		});
 	});
+	
 })(jQuery);
